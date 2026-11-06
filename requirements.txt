@@ -1,0 +1,11 @@
+gradio>=6.0
+fastapi
+uvicorn
+websockets
+httpx
+numpy
+anthropic>=1.13
+google-genai>=2.0
+openai>=3.0
+python-dotenv>=1.0
+pytest>=8.0

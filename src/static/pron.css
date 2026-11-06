@@ -1,0 +1,274 @@
+/* 發音課面板（static/pron.js 渲染）；語音課的課堂錄音卡片（static/voice.js）共用其中的顏色、按鈕和播放卡片樣式。
+   顏色沿用 Gradio 主題變量，深色模式由 .dark 切換。
+   分區：面板和顏色 → 圖示 → 流程條 → 標籤和標題 → 文章 → 分數卡片 → ④ 練習 → 老師回饋
+        → 按鈕和開關 → 錄音、提示 → 結果頁（播放卡片、逐句對比表、聊天）→ 窄螢幕 */
+
+/* ---------- 面板和顏色 ---------- */
+/* 顏色變量：發音課面板，以及共用這套顏色的語音課錄音卡片（.vt-player）、歷史列表的上課中綠點（#vt-history） */
+.vt-pron, .vt-player, #vt-history {
+  --vt-good: #15803d; --vt-fair: #b45309; --vt-bad: #dc2626; --vt-rec: #dc2626;
+  --vt-line: var(--border-color-primary); --vt-muted: var(--body-text-color-subdued);
+  --vt-accent: var(--color-accent); --vt-soft: color-mix(in srgb, var(--color-accent) 9%, transparent); }
+.dark :is(.vt-pron, .vt-player, #vt-history) { --vt-good: #4ade80; --vt-fair: #fbbf24; --vt-bad: #f87171; --vt-rec: #f87171; }
+.vt-pron, .vt-player { color: var(--body-text-color); }
+.vt-pron { border: 1px solid var(--vt-line); border-radius: 14px; padding: 20px 22px;
+           background: var(--block-background-fill); min-height: 320px; display: flex; flex-direction: column; gap: 16px; }
+.vt-pron-loading { margin: auto; color: var(--vt-muted); font-size: 15px; display: flex; align-items: center; gap: 10px; }
+.vt-body { display: flex; flex-direction: column; gap: 14px; }
+/* 分數顏色（和 pron.js 的 cls() 對應）；vt-same 是「±0」 */
+.vt-good { color: var(--vt-good); } .vt-fair { color: var(--vt-fair); } .vt-bad { color: var(--vt-bad); }
+.vt-same { color: var(--vt-muted); }
+
+/* ---------- 圖示、轉圈 ---------- */
+.vt-ic { width: 17px; height: 17px; flex-shrink: 0; }
+.vt-spin { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--vt-line);
+           border-top-color: var(--vt-accent); animation: vt-rot .8s linear infinite; display: inline-block; flex-shrink: 0; }
+@keyframes vt-rot { to { transform: rotate(360deg); } }
+
+/* ---------- 流程條：圓點 + 連線，已完成的步驟下方顯示結果 ---------- */
+.vt-flow { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); padding-top: 2px; }
+.vt-flow-track { position: absolute; top: 15px; left: 10%; right: 10%; height: 3px; border-radius: 3px;
+                 background: var(--vt-line); }
+.vt-flow-track > div { height: 100%; width: var(--vt-fill); border-radius: 3px; background: var(--vt-accent);
+                       transition: width .4s ease; }
+.vt-flow-step { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center;
+                gap: 3px; min-width: 0; }
+.vt-flow-step .dot { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+                     font-size: 13px; font-weight: 600; background: var(--block-background-fill);
+                     border: 2px solid var(--vt-line); color: var(--vt-muted); transition: all .25s; }
+.vt-flow-step .dot .vt-ic { width: 16px; height: 16px; stroke-width: 3; }
+.vt-flow-step .name { font-size: 13px; font-weight: 600; color: var(--vt-muted); margin-top: 4px; }
+.vt-flow-step .sub { font-size: 12px; color: var(--vt-muted); min-height: 16px; white-space: nowrap;
+                     overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.vt-flow-step.done .dot { background: var(--vt-accent); border-color: var(--vt-accent); color: #fff; }
+.vt-flow-step.done .name { color: var(--body-text-color); }
+.vt-flow-step.cur .dot { border-color: var(--vt-accent); color: var(--vt-accent);
+                         box-shadow: 0 0 0 5px color-mix(in srgb, var(--vt-accent) 18%, transparent); }
+.vt-flow-step.cur .name { color: var(--vt-accent); }
+.vt-flow-step.skip .dot { border-style: dashed; }
+.vt-flow-step .sub.vt-good, .vt-flow-step .sub.vt-fair, .vt-flow-step .sub.vt-bad { font-weight: 600; }
+
+/* ---------- 標籤、標題 ---------- */
+.vt-meta { display: flex; gap: 6px; flex-wrap: wrap; }
+.vt-chip { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; padding: 3px 10px;
+           border-radius: 999px; background: var(--vt-soft); color: var(--vt-muted); }
+.vt-chip b { color: var(--body-text-color); font-weight: 600; }
+.vt-chip .vt-ic { width: 12px; height: 12px; }
+/* 唸得不好的音：/θ/ ×3 three, thought → better */
+.vt-chip.vt-sound b { font-size: 13px; }
+.vt-chip.vt-sound .n { font-weight: 600; color: var(--body-text-color); }
+.vt-chip.vt-sound .ex { opacity: .85; }
+.vt-title { font-size: 17px; font-weight: 650; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.vt-count { font-size: 13px; font-weight: 500; color: var(--vt-muted); }
+.vt-subtitle { font-size: 14px; font-weight: 600; margin-top: 4px; }
+.vt-hint { font-size: 12.5px; color: var(--vt-muted); }
+.vt-hint kbd { font-family: inherit; font-size: 11px; padding: 1px 6px; border-radius: 5px;
+               border: 1px solid var(--vt-line); border-bottom-width: 2px; }
+
+/* ---------- 文章 ---------- */
+.vt-passage { font-size: 19px; line-height: 1.95; max-height: 340px; overflow-y: auto; padding: 14px 16px;
+              border-radius: 12px; background: var(--background-fill-secondary, var(--vt-soft)); }
+.vt-passage h3 { margin: 0 0 6px; font-size: 16px; font-weight: 650; }
+.vt-sent { padding: 2px 3px; border-radius: 6px; transition: background .2s, opacity .2s; }
+.vt-sent.cur { background: color-mix(in srgb, var(--vt-accent) 20%, transparent); }   /* 正在讀 / 正在播的句子 */
+.vt-sent.dim { opacity: .5; }                                                          /* ③⑤ 已經錄完的句子 */
+.vt-sent.clickable { cursor: pointer; }
+.vt-sent.clickable:hover { background: color-mix(in srgb, var(--vt-accent) 10%, transparent); }
+.vt-sent .vt-badge { font-size: 11px; vertical-align: super; margin-left: 3px; font-weight: 700; }   /* 句末的句子分數 */
+.vt-w.good { color: var(--vt-good); }
+.vt-w.fair { color: var(--vt-fair); }
+.vt-w.bad { color: var(--vt-bad); }
+.vt-w.focus { border-bottom: 1px dotted currentColor; }   /* 從錯誤本特別放進文章的字 */
+/* 字的顏色說明 */
+.vt-legend { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; font-size: 12.5px; }
+.vt-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.vt-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; display: inline-block; }
+
+/* ---------- 分數卡片：標題一行；下一行左邊分數、右邊小走勢圖 ---------- */
+.vt-scores { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; }
+.vt-score { min-width: 0; border: 1px solid var(--vt-line); border-radius: 12px; padding: 10px 12px; }
+.vt-score .k { font-size: 12.5px; font-weight: 500; color: var(--vt-muted); white-space: nowrap; overflow: hidden;
+               text-overflow: ellipsis; }
+.vt-score .k .note { font-weight: 400; opacity: .75; }
+.vt-score .row { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.vt-score .v { font-size: 26px; font-weight: 700; line-height: 1.2; margin-top: 2px; }
+.vt-score .d { font-size: 13px; margin-left: 6px; font-weight: 600; }
+/* 小走勢圖：線用淺灰，最新一次用主題色圓點 */
+.vt-spark { width: 56px; height: 28px; flex-shrink: 0; color: var(--vt-muted); opacity: .75; }
+.vt-spark .last { fill: var(--vt-accent); }
+
+/* ---------- ④ 練習目標 ---------- */
+.vt-target { border: 1px solid var(--vt-line); border-radius: 12px; padding: 14px 16px; }
+.vt-target .label { font-size: 12.5px; color: var(--vt-muted); display: flex; justify-content: space-between;
+                    gap: 10px; flex-wrap: wrap; }
+/* 次數小圓點：空心 = 還沒用、實心 = 用過、綠色 = 過關的那次 */
+.vt-tries { display: inline-flex; align-items: center; gap: 4px; }
+.vt-tries i { width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid var(--vt-muted); display: inline-block; }
+.vt-tries i.used { background: var(--vt-muted); }
+.vt-tries i.pass { background: var(--vt-good); border-color: var(--vt-good); }
+.vt-tries i:last-of-type { margin-right: 4px; }
+.vt-target .text { font-size: 30px; font-weight: 650; margin: 6px 0 2px; line-height: 1.45; }
+.vt-target .text.sentence { font-size: 20px; font-weight: 500; }
+.vt-phonemes { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }   /* 單字的每個音素和分數 */
+.vt-phonemes span { display: inline-flex; align-items: baseline; gap: 4px; border: 1px solid var(--vt-line);
+                    border-radius: 8px; padding: 2px 8px; font-size: 15px; }
+.vt-phonemes b { font-size: 11px; font-weight: 600; }
+.vt-status-line { font-size: 14px; margin-top: 8px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.vt-status-line .vt-ic { width: 15px; height: 15px; vertical-align: -2px; }
+
+/* ---------- 老師回饋（③ 結果、④ 每次評分後） ---------- */
+.vt-feedback { display: flex; gap: 12px; align-items: center; padding: 10px 12px 10px 14px; border-radius: 12px;
+               background: var(--vt-soft); border-left: 3px solid var(--vt-accent); font-size: 15px; }
+.vt-feedback .who { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+                    color: var(--vt-accent); align-self: flex-start; padding-top: 3px; }
+.vt-feedback .say { flex: 1; line-height: 1.6; display: flex; align-items: center; gap: 8px; }
+.vt-feedback.loading .say { color: var(--vt-muted); }
+
+/* ---------- 按鈕、開關 ---------- */
+.vt-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.vt-spacer { flex: 1; }
+.vt-plan { font-size: 13.5px; color: var(--vt-muted); }
+.vt-btn { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--vt-line);
+          background: var(--button-secondary-background-fill); color: var(--body-text-color); border-radius: 10px;
+          padding: 8px 14px; font-size: 14px; font-weight: 500; cursor: pointer; transition: filter .15s, background .15s; }
+.vt-btn:hover:not(:disabled) { filter: brightness(.95); }
+.vt-btn:disabled { opacity: .4; cursor: not-allowed; }
+.vt-btn span:empty { display: none; }   /* 只有圖示、沒有文字的按鈕 */
+.vt-btn.primary { background: var(--vt-accent); border-color: var(--vt-accent); color: #fff; font-weight: 600; }
+.vt-btn.icon { padding: 6px; border-radius: 8px; background: transparent; }
+.vt-btn.icon-only { width: 40px; padding: 0; justify-content: center; }
+/* 錄音鍵：錄音中變紅並閃動 */
+.vt-btn.rec { min-width: 112px; justify-content: center; font-weight: 600; }
+.vt-btn.rec.on { background: var(--vt-rec); border-color: var(--vt-rec); color: #fff; animation: vt-pulse 1.2s infinite; }
+@keyframes vt-pulse { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--vt-rec) 50%, transparent); }
+                      50% { box-shadow: 0 0 0 8px transparent; } }
+/* 開關（Slow） */
+.vt-switch { display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; cursor: pointer; user-select: none;
+             color: var(--vt-muted); }
+.vt-switch .knob { width: 30px; height: 18px; border-radius: 999px; background: var(--vt-line); position: relative;
+                   transition: background .2s; flex-shrink: 0; }
+.vt-switch .knob::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%;
+                          background: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, .25); transition: transform .2s; }
+.vt-switch.on { color: var(--body-text-color); }
+.vt-switch.on .knob { background: var(--vt-accent); }
+.vt-switch.on .knob::after { transform: translateX(12px); }
+
+/* ---------- 錄音波形、錯誤和提示 ---------- */
+.vt-wave { width: 100%; height: 44px; display: block; border-radius: 10px;
+           background: color-mix(in srgb, var(--vt-rec) 7%, transparent); }
+.vt-msg { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--vt-bad); }
+.vt-msg.vt-notice { color: var(--vt-fair); }   /* 錄音品質提醒（太大聲） */
+.vt-busy { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--vt-muted); }
+
+/* ---------- 結果頁：播放卡片（老師示範 / 第一次 / 第二次） ---------- */
+.vt-recs { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.vt-rec-card { display: flex; align-items: center; gap: 12px; border: 1px solid var(--vt-line); border-radius: 12px;
+               padding: 10px 14px; transition: border-color .2s; }
+.vt-rec-card.on { border-color: var(--vt-accent); }
+.vt-rec-card .info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 7px; }
+.vt-rec-card .row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.vt-rec-card .label { font-size: 14px; font-weight: 600; }
+.vt-rec-card .time { font-size: 12.5px; color: var(--vt-muted); font-variant-numeric: tabular-nums; }
+/* 進度條：看得到的線 5px，可以按住拖動的範圍 16px（太細不好抓） */
+.vt-rec-track { height: 16px; margin: -5px 0; display: flex; align-items: center; cursor: pointer; touch-action: none;
+                background: linear-gradient(var(--vt-line), var(--vt-line)) center / 100% 5px no-repeat; }
+.vt-rec-track > div { height: 5px; width: 0; background: var(--vt-accent); border-radius: 5px; pointer-events: none; }
+/* 播放鍵：卡片上的大圓鍵（round）和表格裡的小圓鍵（mini）都是白底細框，滑鼠移上或播放中變成主題色 */
+.vt-btn.icon.round { width: 38px; height: 38px; padding: 0; justify-content: center; border-radius: 50%;
+                     background: var(--block-background-fill); color: var(--vt-muted); }
+.vt-btn.icon.round .vt-ic { width: 15px; height: 15px; }
+.vt-btn.icon.round:hover, .vt-rec-card.on .vt-btn.icon.round { color: var(--vt-accent); border-color: var(--vt-accent); }
+/* 語音課的課堂錄音卡片（voice.js）：沿用上面的播放卡片，改成上下三行：標題和時間、整段波紋、控制鍵 */
+.vt-player .vt-rec-card { flex-direction: column; align-items: stretch; gap: 8px; padding: 12px 14px; }
+.vt-wavebar { position: relative; height: 44px; cursor: pointer; touch-action: none; user-select: none; }
+.vt-wavebar canvas { width: 100%; height: 100%; display: block; }
+/* 滑鼠位置的細線和時間 */
+.vt-wavebar .hover { display: none; position: absolute; top: 0; bottom: 0; left: var(--h, 0%); width: 1px;
+                     background: var(--vt-muted); pointer-events: none; }
+.vt-wavebar:hover .hover { display: block; }
+.vt-wavebar .hover span { position: absolute; bottom: 100%; left: 50%; transform: translate(-50%, -4px);
+                          font-size: 11.5px; padding: 1px 6px; border-radius: 6px; white-space: nowrap;
+                          background: var(--body-text-color); color: var(--block-background-fill);
+                          font-variant-numeric: tabular-nums; }
+.vt-player-ctl { display: flex; align-items: center; gap: 6px; }
+.vt-player-ctl .vt-btn.icon { gap: 3px; font-size: 12.5px; font-variant-numeric: tabular-nums; color: var(--vt-muted); }
+.vt-player-ctl .vt-btn.icon:hover { color: var(--vt-accent); }
+.vt-player-ctl [data-vt-rec="speed"] { min-width: 52px; justify-content: center; padding: 5px 10px;
+                                       border-radius: 999px; font-weight: 600; }
+.vt-btn.icon.mini { width: 24px; height: 24px; padding: 0; justify-content: center; border-radius: 50%;
+                    background: transparent; color: var(--vt-muted); opacity: .7; }
+.vt-btn.icon.mini .vt-ic { width: 12px; height: 12px; }
+.vt-btn.icon.mini:hover, .vt-btn.icon.mini.on { opacity: 1; color: var(--vt-accent); border-color: var(--vt-accent); }
+
+/* ---------- 結果頁：逐句對比表 ---------- */
+/* Gradio 的 HTML 組件自帶表格樣式（每格框線、底色、字體），這裡用 !important 蓋掉，改成和卡片一致的圓角外框 */
+.vt-table { border: 1px solid var(--vt-line); border-radius: 12px; overflow: hidden; }
+.vt-pron .vt-compare { width: 100%; border-collapse: collapse !important; border: 0 !important; margin: 0 !important;
+                       font-family: inherit !important; font-size: 14px !important; background: transparent !important; }
+.vt-pron .vt-compare th, .vt-pron .vt-compare td { border: 0 !important; border-bottom: 1px solid var(--vt-line) !important;
+                                                   background: transparent !important; padding: 9px 14px !important;
+                                                   text-align: left; vertical-align: middle; font-family: inherit !important; }
+.vt-pron .vt-compare tr { background: transparent !important; border: 0 !important; }
+.vt-pron .vt-compare tbody tr:last-child td { border-bottom: 0 !important; }
+.vt-pron .vt-compare tbody tr:hover td { background: var(--vt-soft) !important; }
+.vt-pron .vt-compare th { font-size: 11.5px !important; font-weight: 600 !important; color: var(--vt-muted) !important;
+                          text-transform: uppercase; letter-spacing: .04em;
+                          background: var(--background-fill-secondary, var(--vt-soft)) !important; }
+.vt-compare .idx { width: 36px; color: var(--vt-muted); font-variant-numeric: tabular-nums; }
+.vt-compare .text { color: var(--body-text-color); line-height: 1.5; }
+.vt-compare .num { width: 72px; text-align: right !important; white-space: nowrap; font-variant-numeric: tabular-nums;
+                   font-weight: 600; }
+.vt-pron .vt-compare .tch { width: 64px; text-align: center !important; }   /* Teacher 欄只有播放鍵，置中、比分數欄窄 */
+.vt-cell { display: inline-flex; align-items: center; gap: 8px; }        /* 播放鍵 + 分數 */
+.vt-delta { display: inline-block; min-width: 40px; text-align: center; padding: 1px 8px; border-radius: 999px;
+            font-size: 12.5px; font-weight: 600; background: color-mix(in srgb, currentColor 12%, transparent); }
+
+/* ---------- 結果頁：右下角懸浮的老師聊天 ---------- */
+/* 外層沿用 .vt-pron 的顏色變量，但不要面板本身的框、留白和最小高度；空白處不擋住後面頁面的點擊 */
+.vt-pron.vt-pron-float { position: fixed; right: 24px; bottom: 24px; z-index: 1000; min-height: 0; padding: 0;
+                         border: 0; border-radius: 0; background: none; display: flex; flex-direction: column;
+                         align-items: flex-end; gap: 12px; pointer-events: none; }
+.vt-pron-float > * { pointer-events: auto; }
+.vt-chat-fab { width: 56px; height: 56px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center;
+               background: var(--vt-accent); color: #fff; transition: transform .15s, background .2s;
+               box-shadow: 0 6px 18px rgba(0, 0, 0, .18), 0 2px 4px rgba(0, 0, 0, .12); }
+.vt-chat-fab:hover { transform: scale(1.06); }
+.vt-chat-fab .vt-ic { width: 24px; height: 24px; }
+.vt-chat-fab.open { background: var(--block-background-fill); color: var(--vt-muted); border: 1px solid var(--vt-line); }
+.vt-chat-pop { width: 380px; max-width: calc(100vw - 32px); height: 520px; max-height: calc(100vh - 120px);
+               display: flex; flex-direction: column; background: var(--block-background-fill);
+               border: 1px solid var(--vt-line); border-radius: 16px; overflow: hidden;
+               box-shadow: 0 16px 40px rgba(0, 0, 0, .18), 0 4px 10px rgba(0, 0, 0, .08);
+               animation: vt-pop .18s ease-out; transform-origin: bottom right; }
+@keyframes vt-pop { from { opacity: 0; transform: translateY(8px) scale(.97); } to { opacity: 1; transform: none; } }
+.vt-chat-head { padding: 13px 16px; border-bottom: 1px solid var(--vt-line); font-size: 15px; font-weight: 650; }
+/* min-height: 0 讓記錄區能縮到彈窗剩下的高度、出現自己的捲軸（否則會跟著內容長高，滾輪就落到後面的頁面上） */
+.vt-chat-pop .vt-chat-log { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 10px; overflow-y: auto;
+                            overscroll-behavior: contain; padding: 14px; }
+.vt-chat-pop .vt-msg { padding: 0 14px; }
+.vt-chat-empty { font-size: 13.5px; color: var(--vt-muted); padding: 6px 4px; line-height: 1.6; }
+.vt-bubble { max-width: 82%; padding: 9px 13px; border-radius: 14px; font-size: 14.5px; line-height: 1.6;
+             white-space: pre-wrap; word-break: break-word; }
+.vt-bubble.me { align-self: flex-end; background: var(--vt-accent); color: #fff; border-bottom-right-radius: 4px; }
+.vt-bubble.teacher { align-self: flex-start; background: var(--vt-soft); border-bottom-left-radius: 4px; }
+.vt-bubble .who { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+                  color: var(--vt-accent); margin-bottom: 2px; }
+.vt-thinking { display: flex; align-items: center; gap: 8px; color: var(--vt-muted); }
+.vt-chat-input { display: flex; gap: 8px; align-items: flex-end; padding: 10px 12px; border-top: 1px solid var(--vt-line); }
+.vt-chat-input textarea { flex: 1; resize: none; min-height: 40px; max-height: 130px; padding: 9px 12px;
+                          border: 1px solid var(--vt-line); border-radius: 10px; font: inherit; font-size: 14.5px;
+                          line-height: 1.5; color: var(--body-text-color); background: var(--block-background-fill);
+                          outline: none; box-sizing: border-box; }
+.vt-chat-input textarea:focus { border-color: var(--vt-accent);
+                                box-shadow: 0 0 0 3px color-mix(in srgb, var(--vt-accent) 15%, transparent); }
+.vt-chat-input .vt-btn { height: 40px; }
+
+/* ---------- 窄螢幕 ---------- */
+@media (max-width: 640px) {
+  .vt-pron { padding: 16px; }
+  .vt-pron.vt-pron-float { right: 16px; bottom: 16px; }
+  .vt-flow-step .name { font-size: 11.5px; }
+  .vt-flow-step .sub { font-size: 10.5px; }
+  .vt-pron .vt-compare th, .vt-pron .vt-compare td { padding: 8px 10px !important; }
+  .vt-compare .text { font-size: 13px; }
+}

@@ -1,0 +1,466 @@
+{
+ "RecognitionStatus": "Success",
+ "Offset": 1800000,
+ "Duration": 18100000,
+ "DisplayText": "I fought about the Berry cold tree.",
+ "SNR": 42.085083,
+ "NBest": [
+  {
+   "Confidence": 0.94770294,
+   "Lexical": "i fought about the berry cold tree",
+   "ITN": "i fought about the berry cold tree",
+   "MaskedITN": "i fought about the berry cold tree",
+   "Display": "I fought about the Berry cold tree.",
+   "AccuracyScore": 69.0,
+   "FluencyScore": 100.0,
+   "ProsodyScore": 87.6,
+   "CompletenessScore": 71.0,
+   "PronScore": 79.3,
+   "Words": [
+    {
+     "Word": "i",
+     "Offset": 1800000,
+     "Duration": 2700000,
+     "Confidence": 0.0,
+     "AccuracyScore": 97.0,
+     "ErrorType": "None",
+     "Syllables": [
+      {
+       "Syllable": "aɪ",
+       "Grapheme": "i",
+       "Offset": 1800000,
+       "Duration": 2700000,
+       "AccuracyScore": 97.0
+      }
+     ],
+     "Phonemes": [
+      {
+       "Phoneme": "aɪ",
+       "Offset": 1800000,
+       "Duration": 2700000,
+       "AccuracyScore": 97.0
+      }
+     ],
+     "Feedback": {
+      "Prosody": {
+       "Break": {
+        "ErrorTypes": [
+         "None"
+        ],
+        "BreakLength": 0
+       },
+       "Intonation": {
+        "ErrorTypes": [
+         "Monotone"
+        ],
+        "Monotone": {
+         "Confidence": 0.0,
+         "WordPitchSlopeConfidence": 0.0,
+         "SyllablePitchDeltaConfidence": 0.4152271
+        }
+       }
+      }
+     }
+    },
+    {
+     "Word": "fought",
+     "Offset": 4600000,
+     "Duration": 2700000,
+     "Confidence": 0.0,
+     "AccuracyScore": 94.0,
+     "ErrorType": "None",
+     "Syllables": [
+      {
+       "Syllable": "fɔt",
+       "Grapheme": "fought",
+       "Offset": 4600000,
+       "Duration": 2700000,
+       "AccuracyScore": 69.0
+      }
+     ],
+     "Phonemes": [
+      {
+       "Phoneme": "f",
+       "Offset": 4600000,
+       "Duration": 800000,
+       "AccuracyScore": 18.0
+      },
+      {
+       "Phoneme": "ɔ",
+       "Offset": 5500000,
+       "Duration": 1200000,
+       "AccuracyScore": 91.0
+      },
+      {
+       "Phoneme": "t",
+       "Offset": 6800000,
+       "Duration": 500000,
+       "AccuracyScore": 100.0
+      }
+     ],
+     "Feedback": {
+      "Prosody": {
+       "Break": {
+        "ErrorTypes": [
+         "None"
+        ],
+        "UnexpectedBreak": {
+         "Confidence": 4.945055e-08
+        },
+        "MissingBreak": {
+         "Confidence": 1.0
+        },
+        "BreakLength": 0
+       },
+       "Intonation": {
+        "ErrorTypes": [
+         "Monotone"
+        ],
+        "Monotone": {
+         "Confidence": 0.0,
+         "WordPitchSlopeConfidence": 0.0,
+         "SyllablePitchDeltaConfidence": 0.4152271
+        }
+       }
+      }
+     }
+    },
+    {
+     "Word": "about",
+     "Offset": 7400000,
+     "Duration": 2100000,
+     "Confidence": 0.0,
+     "AccuracyScore": 94.0,
+     "ErrorType": "None",
+     "Syllables": [
+      {
+       "Syllable": "ə",
+       "Grapheme": "a",
+       "Offset": 7400000,
+       "Duration": 500000,
+       "AccuracyScore": 100.0
+      },
+      {
+       "Syllable": "baʊt",
+       "Grapheme": "bout",
+       "Offset": 8000000,
+       "Duration": 1500000,
+       "AccuracyScore": 89.0
+      }
+     ],
+     "Phonemes": [
+      {
+       "Phoneme": "ə",
+       "Offset": 7400000,
+       "Duration": 500000,
+       "AccuracyScore": 100.0
+      },
+      {
+       "Phoneme": "b",
+       "Offset": 8000000,
+       "Duration": 300000,
+       "AccuracyScore": 100.0
+      },
+      {
+       "Phoneme": "aʊ",
+       "Offset": 8400000,
+       "Duration": 300000,
+       "AccuracyScore": 100.0
+      },
+      {
+       "Phoneme": "t",
+       "Offset": 8800000,
+       "Duration": 700000,
+       "AccuracyScore": 78.0
+      }
+     ],
+     "Feedback": {
+      "Prosody": {
+       "Break": {
+        "ErrorTypes": [
+         "None"
+        ],
+        "UnexpectedBreak": {
+         "Confidence": 4.945055e-08
+        },
+        "MissingBreak": {
+         "Confidence": 1.0
+        },
+        "BreakLength": 0
+       },
+       "Intonation": {
+        "ErrorTypes": [
+         "Monotone"
+        ],
+        "Monotone": {
+         "Confidence": 0.0,
+         "WordPitchSlopeConfidence": 0.0,
+         "SyllablePitchDeltaConfidence": 0.4152271
+        }
+       }
+      }
+     }
+    },
+    {
+     "Word": "the",
+     "Offset": 9600000,
+     "Duration": 900000,
+     "Confidence": 0.0,
+     "AccuracyScore": 88.0,
+     "ErrorType": "None",
+     "Syllables": [
+      {
+       "Syllable": "ðə",
+       "Grapheme": "the",
+       "Offset": 9600000,
+       "Duration": 900000,
+       "AccuracyScore": 86.0
+      }
+     ],
+     "Phonemes": [
+      {
+       "Phoneme": "ð",
+       "Offset": 9600000,
+       "Duration": 300000,
+       "AccuracyScore": 95.0
+      },
+      {
+       "Phoneme": "ə",
+       "Offset": 10000000,
+       "Duration": 500000,
+       "AccuracyScore": 80.0
+      }
+     ],
+     "Feedback": {
+      "Prosody": {
+       "Break": {
+        "ErrorTypes": [
+         "None"
+        ],
+        "UnexpectedBreak": {
+         "Confidence": 4.945055e-08
+        },
+        "MissingBreak": {
+         "Confidence": 1.0
+        },
+        "BreakLength": 0
+       },
+       "Intonation": {
+        "ErrorTypes": [
+         "Monotone"
+        ],
+        "Monotone": {
+         "Confidence": 0.0,
+         "WordPitchSlopeConfidence": 0.0,
+         "SyllablePitchDeltaConfidence": 0.4152271
+        }
+       }
+      }
+     }
+    },
+    {
+     "Word": "berry",
+     "Offset": 10600000,
+     "Duration": 2800000,
+     "Confidence": 0.0,
+     "AccuracyScore": 6.0,
+     "ErrorType": "Mispronunciation",
+     "Syllables": [
+      {
+       "Syllable": "bɛ",
+       "Grapheme": "ber",
+       "Offset": 10600000,
+       "Duration": 1300000,
+       "AccuracyScore": 30.0
+      },
+      {
+       "Syllable": "ɹi",
+       "Grapheme": "ry",
+       "Offset": 12000000,
+       "Duration": 1400000,
+       "AccuracyScore": 74.0
+      }
+     ],
+     "Phonemes": [
+      {
+       "Phoneme": "b",
+       "Offset": 10600000,
+       "Duration": 500000,
+       "AccuracyScore": 2.0
+      },
+      {
+       "Phoneme": "ɛɹ",
+       "Offset": 11200000,
+       "Duration": 1900000,
+       "AccuracyScore": 76.0
+      },
+      {
+       "Phoneme": "i",
+       "Offset": 13200000,
+       "Duration": 200000,
+       "AccuracyScore": 0.0
+      }
+     ],
+     "Feedback": {
+      "Prosody": {
+       "Break": {
+        "ErrorTypes": [
+         "None"
+        ],
+        "UnexpectedBreak": {
+         "Confidence": 4.945055e-08
+        },
+        "MissingBreak": {
+         "Confidence": 1.0
+        },
+        "BreakLength": 0
+       },
+       "Intonation": {
+        "ErrorTypes": [
+         "Monotone"
+        ],
+        "Monotone": {
+         "Confidence": 0.0,
+         "WordPitchSlopeConfidence": 0.0,
+         "SyllablePitchDeltaConfidence": 0.4152271
+        }
+       }
+      }
+     }
+    },
+    {
+     "Word": "cold",
+     "Offset": 13500000,
+     "Duration": 2000000,
+     "Confidence": 0.0,
+     "AccuracyScore": 8.0,
+     "ErrorType": "Mispronunciation",
+     "Syllables": [
+      {
+       "Syllable": "koʊld",
+       "Grapheme": "cold",
+       "Offset": 13500000,
+       "Duration": 2000000,
+       "AccuracyScore": 61.0
+      }
+     ],
+     "Phonemes": [
+      {
+       "Phoneme": "k",
+       "Offset": 13500000,
+       "Duration": 200000,
+       "AccuracyScore": 0.0
+      },
+      {
+       "Phoneme": "oʊ",
+       "Offset": 13800000,
+       "Duration": 500000,
+       "AccuracyScore": 14.0
+      },
+      {
+       "Phoneme": "l",
+       "Offset": 14400000,
+       "Duration": 300000,
+       "AccuracyScore": 100.0
+      },
+      {
+       "Phoneme": "d",
+       "Offset": 14800000,
+       "Duration": 700000,
+       "AccuracyScore": 100.0
+      }
+     ],
+     "Feedback": {
+      "Prosody": {
+       "Break": {
+        "ErrorTypes": [
+         "None"
+        ],
+        "UnexpectedBreak": {
+         "Confidence": 4.945055e-08
+        },
+        "MissingBreak": {
+         "Confidence": 1.0
+        },
+        "BreakLength": 0
+       },
+       "Intonation": {
+        "ErrorTypes": [
+         "Monotone"
+        ],
+        "Monotone": {
+         "Confidence": 0.0,
+         "WordPitchSlopeConfidence": 0.0,
+         "SyllablePitchDeltaConfidence": 0.4152271
+        }
+       }
+      }
+     }
+    },
+    {
+     "Word": "tree",
+     "Offset": 15600000,
+     "Duration": 4300000,
+     "Confidence": 0.0,
+     "AccuracyScore": 94.0,
+     "ErrorType": "None",
+     "Syllables": [
+      {
+       "Syllable": "tɹi",
+       "Grapheme": "tree",
+       "Offset": 15600000,
+       "Duration": 4300000,
+       "AccuracyScore": 94.0
+      }
+     ],
+     "Phonemes": [
+      {
+       "Phoneme": "t",
+       "Offset": 15600000,
+       "Duration": 500000,
+       "AccuracyScore": 94.0
+      },
+      {
+       "Phoneme": "ɹ",
+       "Offset": 16200000,
+       "Duration": 900000,
+       "AccuracyScore": 94.0
+      },
+      {
+       "Phoneme": "i",
+       "Offset": 17200000,
+       "Duration": 2700000,
+       "AccuracyScore": 94.0
+      }
+     ],
+     "Feedback": {
+      "Prosody": {
+       "Break": {
+        "ErrorTypes": [
+         "None"
+        ],
+        "UnexpectedBreak": {
+         "Confidence": 4.945055e-08
+        },
+        "MissingBreak": {
+         "Confidence": 1.0
+        },
+        "BreakLength": 0
+       },
+       "Intonation": {
+        "ErrorTypes": [
+         "Monotone"
+        ],
+        "Monotone": {
+         "Confidence": 0.0,
+         "WordPitchSlopeConfidence": 0.0,
+         "SyllablePitchDeltaConfidence": 0.4152271
+        }
+       }
+      }
+     }
+    }
+   ]
+  }
+ ]
+}
